@@ -48,17 +48,17 @@ values you emit and the ones your subscriber receives.
 
 ## Core concepts
 
-| Concept                                    | Description                                                                 |
-|--------------------------------------------|-----------------------------------------------------------------------------|
-| [Observable](/core/observable)             | A lazy, push-based stream. The handler runs once per `subscribe`.           |
-| [Subject](/core/subject)                   | A multicast stream that is both an observable and an observer.              |
-| [BehaviorSubject](/core/behavior-subject)  | A subject that holds a current value and replays it to new subscribers.     |
-| [Operators](/operators/overview)           | Small functions composed with `pipe` to transform a stream.                 |
+| Concept                                  | Description                                                             |
+|------------------------------------------|-------------------------------------------------------------------------|
+| [Observable](core/observable)            | A lazy, push-based stream. The handler runs once per `subscribe`.       |
+| [Subject](core/subject)                  | A multicast stream that is both an observable and an observer.          |
+| [BehaviorSubject](core/behavior-subject) | A subject that holds a current value and replays it to new subscribers. |
+| [Operators](operators/overview)          | Small functions composed with `pipe` to transform a stream.             |
 
 ## The observer
 
 Every subscription is driven by an observer: an object with optional `next`, `error`, and `complete` handlers.
-You can pass the object directly, or pass positional callbacks.
+You can pass the object directly or pass positional callbacks.
 
 ```ts
 // Observer object
@@ -96,8 +96,8 @@ stop(); // clears the interval
 
 ## Next steps
 
-- [Observable](/core/observable): the stream primitive and its `subscribe`/`pipe` API.
-- [Subject](/core/subject) and [BehaviorSubject](/core/behavior-subject): multicasting and shared state.
-- [Operators](/operators/overview): `map`, `filter`, `distinctUntilChanged`, and `tap`.
-- [Piping & Composition](/guides/piping): how `pipe` chains operators with full type inference.
-- [Error Handling](/guides/error-handling): how throws are captured and surfaced.
+- [Observable](core/observable): the stream primitive and its `subscribe`/`pipe` API.
+- [Subject](core/subject) and [BehaviorSubject](core/behavior-subject): multicasting and shared state.
+- [Operators](operators/overview): `map`, `filter`, `distinctUntilChanged`, and `tap`.
+- [Piping & Composition](guides/piping): how `pipe` chains operators with full type inference.
+- [Error Handling](guides/error-handling): how throws are captured and surfaced.

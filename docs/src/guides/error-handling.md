@@ -6,7 +6,7 @@ observer's `error` handler, or aggregated when a subject notifies many observers
 ## Observable handler throws
 
 If an `Observable` handler throws synchronously during `subscribe`, the error is forwarded to `observer.error`
-and a no-op unsubscribe is returned:
+and a no-op unsubscribing is returned:
 
 ```ts
 new Observable<number>(() => { throw new Error('boom'); })
@@ -20,7 +20,7 @@ A throw inside the teardown returned by the handler is likewise routed to `obser
 
 ## Operator callback throws
 
-Each [operator](/operators/overview) wraps its callback. A throw in `map`, `filter`, `distinctUntilChanged`, or
+Each [operator](../operators/overview) wraps its callback. A throw in `map`, `filter`, `distinctUntilChanged`, or
 `tap` is routed to `error`, and the offending value is not emitted:
 
 ```ts
@@ -33,7 +33,7 @@ source.pipe(map((x) => { throw new Error('bad'); }))
 
 ## Subject aggregation
 
-A [Subject](/core/subject) notifies a snapshot of its observers. If several handlers throw during one emission,
+A [Subject](../core/subject) notifies a snapshot of its observers. If several handlers throw during one emission,
 the failures are collected and rethrown together as an `AggregateError` once every observer has been notified:
 
 ```ts

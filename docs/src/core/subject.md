@@ -1,6 +1,6 @@
 # Subject
 
-A `Subject` is both an observable and an observer. Unlike an [Observable](/core/observable), which runs its handler
+A `Subject` is both an observable and an observer. Unlike an [Observable](../core/observable), which runs its handler
 once per subscriber, a subject shares a single emission sequence across all of its current observers - it is *hot*
 and *multicast*.
 
@@ -22,15 +22,15 @@ subject.next(42);
 ```
 
 Subscribers only receive values emitted *after* they subscribe; a subject keeps no history. For replaying the
-latest value to late subscribers, use a [BehaviorSubject](/core/behavior-subject).
+latest value to late subscribers, use a [BehaviorSubject](../core/behavior-subject).
 
 ## Emitting
 
-| Method            | Description                                                             |
-|-------------------|-------------------------------------------------------------------------|
-| `next(value)`     | Emits a value to every current observer.                                |
-| `error(err)`      | Emits an error to every current observer.                               |
-| `complete()`      | Notifies observers, clears the observer set, and marks the subject done.|
+| Method        | Description                                                              |
+|---------------|--------------------------------------------------------------------------|
+| `next(value)` | Emits a value to every current observer.                                 |
+| `error(err)`  | Emits an error to every current observer.                                |
+| `complete()`  | Notifies observers, clears the observer set, and marks the subject done. |
 
 ```ts
 subject.next(1);
@@ -65,4 +65,4 @@ subject.next(1); // throws AggregateError with both failures // [!code error]
 ```
 
 A throwing `next` handler is first forwarded to that observer's own `error` handler, then included in the
-aggregate. See [Error Handling](/guides/error-handling).
+aggregate. See [Error Handling](../guides/error-handling).

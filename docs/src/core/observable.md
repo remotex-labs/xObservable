@@ -37,8 +37,8 @@ const unsubscribe = source.subscribe({
 unsubscribe(); // stops delivery and runs the teardown
 ```
 
-If the handler throws synchronously, the error is routed to `observer.error` and a no-op unsubscribe is returned -
-see [Error Handling](/guides/error-handling).
+If the handler throws synchronously, the error is routed to `observer.error` and a no-op unsubscribing is returned -
+see [Error Handling](../guides/error-handling).
 
 ## `pipe`
 
@@ -55,7 +55,7 @@ const result = source.pipe(
 ```
 
 `pipe` is overloaded up to five operators with full type inference; beyond that the result type is inferred from
-the final operator. See [Piping & Composition](/guides/piping).
+the final operator. See [Piping & Composition](../guides/piping).
 
 ## API
 
@@ -74,7 +74,7 @@ callback followed by optional `error` and `complete` callbacks.
 
 Returns the transformed observable, or `this` when called with no operators.
 
-## Cold vs hot
+## Cold vs. hot
 
 An `Observable` is cold: the handler re-runs for every subscriber. When you need a single execution shared across
-many subscribers, use a [Subject](/core/subject) instead.
+many subscribers, use a [Subject](../core/subject) instead.

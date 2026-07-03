@@ -1,6 +1,6 @@
 # BehaviorSubject
 
-A `BehaviorSubject` is a [Subject](/core/subject) that always holds a current value. It is seeded at construction
+A `BehaviorSubject` is a [Subject](../core/subject) that always holds a current value. It is seeded at construction
 and replays the latest value to each new subscriber immediately on subscription - so a value is always available,
 even before the first `next`.
 
@@ -19,7 +19,7 @@ A factory enables lazy or side-effecting initialization; it runs exactly once du
 
 ## Replaying to subscribers
 
-Every new subscriber receives the current value right away, then any subsequent emissions.
+Every new subscriber receives the current value right away, then any following emissions.
 
 ```ts
 const count = new BehaviorSubject<number>(0);
@@ -45,9 +45,9 @@ state.value; // 2
 
 ### `new BehaviorSubject<T>(initialValue)`
 
-| Parameter      | Description                                                            |
-|----------------|------------------------------------------------------------------------|
-| `initialValue` | The initial value, or a factory `() => T` invoked once at construction.|
+| Parameter      | Description                                                             |
+|----------------|-------------------------------------------------------------------------|
+| `initialValue` | The initial value, or a factory `() => T` invoked once at construction. |
 
 ### `get value(): T`
 
@@ -55,6 +55,6 @@ The most recent value: the latest emitted value, or the initial value.
 
 ### `subscribe(...)` and `next(value)`
 
-Both override [Subject](/core/subject): `subscribe` replays the current value after registering the observer, and
+Both override [Subject](../core/subject): `subscribe` replays the current value after registering the observer, and
 `next` stores the value before broadcasting so later subscribers receive it. After completion, `subscribe` returns
-a no-op unsubscribe and `next` is ignored.
+a no-op unsubscribed and `next` is ignored.

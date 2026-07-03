@@ -1,6 +1,6 @@
 # Piping & Composition
 
-`pipe` composes [operators](/operators/overview) into a single transformed observable. It reduces the operators
+`pipe` composes [operators](../operators/overview) into a single transformed observable. It reduces the operators
 over the source, left to right: each operator receives the previous observable and returns the next.
 
 ```ts
@@ -33,7 +33,7 @@ With more than five operators, the result type is inferred from the final operat
 
 ## Order matters
 
-Operators run in the order you list them. Filtering before mapping is not the same as mapping before filtering:
+Operators run in the order you list them. Filtering before mapping is different from mapping before filtering:
 
 ```ts
 // Keep evens, then multiply
@@ -46,4 +46,4 @@ source.pipe(map((x) => x * 10), filter((x) => x > 10));
 ## Each subscription re-runs the chain
 
 Piping does not subscribe. The composed observable is still lazy: the whole chain runs anew for every
-`subscribe` on the result. To share one execution across subscribers, pipe from a [Subject](/core/subject).
+`subscribe` on the result. To share one execution across subscribers, pipe from a [Subject](../core/subject).

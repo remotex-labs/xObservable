@@ -1,7 +1,7 @@
 # Operators
 
 Operators are small functions that take a source observable and return a new one. You apply them with
-[`pipe`](/guides/piping). Each operator subscribes to its source, transforms the notifications, and forwards them
+[`pipe`](../guides/piping). Each operator subscribes to its source, transforms the notifications, and forwards them
 to its own observer. Errors thrown inside an operator callback are routed to the observer's `error` handler.
 
 ```ts
@@ -16,9 +16,9 @@ Projects each value through a function.
 const doubled = numbers.pipe(map((x) => x * 2));
 ```
 
-| Parameter | Description                              |
-|-----------|------------------------------------------|
-| `project` | Transforms each source value into output.|
+| Parameter | Description                               |
+|-----------|-------------------------------------------|
+| `project` | Transforms each source value into output. |
 
 If `project` throws, the error is routed to `error` and that value is not emitted.
 
@@ -30,9 +30,9 @@ Emits only the values that satisfy a predicate; non-matching values are dropped.
 const evens = numbers.pipe(filter((x) => x % 2 === 0));
 ```
 
-| Parameter   | Description                                          |
-|-------------|------------------------------------------------------|
-| `predicate` | Returns `true` to emit the value, `false` to drop it.|
+| Parameter   | Description                                           |
+|-------------|-------------------------------------------------------|
+| `predicate` | Returns `true` to emit the value, `false` to drop it. |
 
 ## `distinctUntilChanged`
 
@@ -76,4 +76,4 @@ const result = source.pipe(
 );
 ```
 
-See [Piping & Composition](/guides/piping) for how types flow through the chain.
+See [Piping & Composition](../guides/piping) for how types flow through the chain.
