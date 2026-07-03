@@ -1,0 +1,76 @@
+{
+    "name": "@remotex-labs/xobservable",
+    "main": "dist/cjs/index.js",
+    "type": "module",
+    "types": "./dist/index.d.ts",
+    "module": "./dist/esm/index.js",
+    "author": "Garefild",
+    "version": "1.0.0-local",
+    "license": "Mozilla Public License Version 2.0",
+    "homepage": "https://remotex-labs.github.io/xObservable",
+    "description": "A lightweight, dependency-free observable implementation with subjects, behavior subjects, and composable operators",
+    "sideEffects": false,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/remotex-labs/xObservable.git"
+    },
+    "bugs": {
+        "url": "https://github.com/remotex-labs/xObservable/issues"
+    },
+    "keywords": [
+        "xObservable",
+        "xobservable",
+        "observable",
+        "observer",
+        "subject",
+        "reactive",
+        "operators",
+        "typescript",
+        "javascript",
+        "developer-tools"
+    ],
+    "engines": {
+        "node": ">=22"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "LICENSE",
+        "README.md"
+    ],
+    "scripts": {
+        "dev":              "xBuild -w",
+        "build":            "xBuild",
+        "build:clean":      "rm -rf ./dist && xBuild",
+
+        "test":             "xjet",
+        "test:coverage":    "xjet --coverage",
+
+        "lint":             "pnpm lint:md && pnpm lint:eslint && pnpm lint:typescript",
+        "lint:md":          "markdownlint \"**/*.md\" --ignore node_modules",
+        "lint:eslint":      "eslint . -c ./eslint.config.mjs",
+        "lint:typescript":  "xBuild --tc",
+
+        "docs:dev":         "vitepress dev docs",
+        "docs:build":       "vitepress build docs",
+        "docs:preview":     "vitepress preview docs"
+    },
+    "devDependencies": {
+        "eslint": "^10.4.1",
+        "vitepress": "^2.0.0-alpha.17",
+        "markdownlint-cli": "^0.48.0",
+        "typescript-eslint": "^8.60.1",
+        "eslint-plugin-tsdoc": "^0.5.0",
+        "eslint-plugin-perfectionist": "^5.9.0",
+        "@types/node": "^25.9.1",
+        "@remotex-labs/xjet": "^1.5.4",
+        "@viteplus/versions": "^2.0.6",
+        "@remotex-labs/xbuild": "^2.5.1"
+    }
+}
