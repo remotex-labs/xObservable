@@ -51,21 +51,6 @@ unsub();
 subject.next(2); // not logged
 ```
 
-Because a subject holds a reference to every current observer until it is removed, forgetting to unsubscribe from a
-long-lived subject keeps that observer - and anything its callbacks capture - alive. Bind the subscription with a
-`using` declaration to remove it automatically when the block exits:
-
-```ts
-{
-    using sub = subject.subscribe((v) => console.log(v));
-    subject.next(1); // logged
-} // sub is disposed here - the observer is removed from the subject
-
-subject.next(2); // not logged
-```
-
-See [Automatic cleanup with `using`](../core/observable#automatic-cleanup-with-using) for requirements.
-
 ## Error aggregation
 
 A subject notifies a snapshot of its observers, so handlers may subscribe or unsubscribe during emission without

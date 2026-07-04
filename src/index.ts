@@ -2,8 +2,8 @@
  * Exports Types
  */
 
-export type { NextType, ErrorType, CompleteType, UnsubscribeType } from '@interfaces/observable.interface';
 export type { ObserverInterface, OperatorFunctionType, UnaryFunctionInterface } from '@interfaces/observable.interface';
+export type { NextType, ErrorType, CompleteType, TeardownType, UnsubscribeType } from '@interfaces/observable.interface';
 
 /**
  * Exports

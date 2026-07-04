@@ -17,7 +17,7 @@ export default defineVersionedConfig({
         [ 'meta', { name: 'theme-color', content: '#646cff' }]
     ],
     versionsConfig: {
-        current: 'v1.0.x',
+        current: 'v1.1.x',
         versionSwitcher: {
             text: 'Version',
             includeCurrentVersion: true

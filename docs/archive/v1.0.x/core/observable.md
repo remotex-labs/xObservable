@@ -37,28 +37,8 @@ const unsubscribe = source.subscribe({
 unsubscribe(); // stops delivery and runs the teardown
 ```
 
-The unsubscribe function is idempotent - calling it more than once runs the teardown only once - so you never
-double-free a subscription.
-
 If the handler throws synchronously, the error is routed to `observer.error` and a no-op unsubscribing is returned -
 see [Error Handling](../guides/error-handling).
-
-### Automatic cleanup with `using`
-
-The unsubscribe function also implements `Disposable`, so you can bind it with a `using` declaration and let the
-subscription tear down automatically when the enclosing block exits. This removes the most common source of leaks:
-forgetting to call the unsubscribe function on a long-lived stream.
-
-```ts
-{
-    using sub = source.subscribe((value) => console.log(value));
-
-    // ...use the subscription
-} // sub is disposed here - delivery stops and the teardown runs
-```
-
-`using` requires TypeScript 5.2+ and a runtime with `Symbol.dispose` (Node.js 22+). Calling the function manually
-still works exactly as before, so `using` is entirely optional.
 
 ## `pipe`
 
@@ -88,8 +68,7 @@ the final operator. See [Piping & Composition](../guides/piping).
 ### `subscribe(observerOrNext?, error?, complete?)`
 
 Returns an `UnsubscribeType` function. Pass either a full observer object as the first argument, or a `next`
-callback followed by optional `error` and `complete` callbacks. The returned function is idempotent and implements
-`Disposable`, so it works with a `using` declaration.
+callback followed by optional `error` and `complete` callbacks.
 
 ### `pipe(...operators)`
 

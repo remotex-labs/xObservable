@@ -94,18 +94,6 @@ const stop = ticks.subscribe((n) => console.log(n));
 stop(); // clears the interval
 ```
 
-The unsubscribe function is idempotent and implements `Disposable`, so you can bind it with a `using` declaration
-and let the subscription tear down automatically when the block exits - avoiding leaks from a forgotten `stop()`:
-
-```ts
-{
-    using sub = ticks.subscribe((n) => console.log(n));
-} // sub is disposed here - the interval is cleared automatically
-```
-
-`using` needs TypeScript 5.2+ and `Symbol.dispose` (Node.js 22+). See
-[Automatic cleanup with `using`](core/observable#automatic-cleanup-with-using).
-
 ## Next steps
 
 - [Observable](core/observable): the stream primitive and its `subscribe`/`pipe` API.

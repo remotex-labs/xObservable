@@ -88,11 +88,13 @@ export class BehaviorSubjectService<T> extends SubjectService<T> {
      * @param observerOrNext - A full observer object, or a `next` callback.
      * @param error - Error handler, used when the first argument is a `next` callback.
      * @param complete - Completion handler, used when the first argument is a `next` callback.
-     * @returns Unsubscribe function, or a no-op when the subject has already completed.
+     * @returns Idempotent, disposable unsubscribe function, or a disposable no-op when the subject has already
+     * completed.
      *
      * @remarks
      * Registers the observer through {@link SubjectService}, then emits the current value once so late subscribers
-     * receive the latest state.
+     * receive the latest state. Like the base {@link ObservableService.subscribe}, the returned function implements
+     * {@link Disposable}, so it can be bound with a `using` declaration.
      *
      * @see SubjectService.subscribe
      * @since 1.0.0
@@ -103,7 +105,7 @@ export class BehaviorSubjectService<T> extends SubjectService<T> {
         error?: ErrorType,
         complete?: CompleteType
     ): UnsubscribeType {
-        if(this.isCompleted) return () => {};
+        if(this.isCompleted) return this.toUnsubscribe(() => {});
 
         const observer = this.createSafeObserver(observerOrNext, error, complete);
         const unsub = super.subscribe(observer);

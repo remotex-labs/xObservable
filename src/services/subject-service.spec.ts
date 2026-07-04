@@ -10,6 +10,7 @@ import { SubjectService } from './subject.service'; // adjust path
 describe('SubjectService', () => {
     beforeAll(() => {
         xJet.useFakeTimers();
+        if (!Symbol.dispose) (Symbol as any).dispose = Symbol.for('Symbol.dispose');
     });
 
     afterAll(() => {
@@ -74,6 +75,23 @@ describe('SubjectService', () => {
             s.next(3);
 
             expect(spy).toHaveBeenCalledTimes(1);
+        });
+
+        test('`using` auto-unsubscribes when the block exits', () => {
+            const s = new SubjectService<number>();
+            const spy = xJet.fn();
+
+            {
+                using sub = s.subscribe(spy);
+                void sub;
+
+                s.next(1);
+            }
+
+            s.next(2);
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(1);
         });
 
         test('unsubscribe during next() is safe (snapshot behavior)', () => {
