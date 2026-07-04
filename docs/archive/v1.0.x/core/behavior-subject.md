@@ -58,7 +58,3 @@ The most recent value: the latest emitted value, or the initial value.
 Both override [Subject](../core/subject): `subscribe` replays the current value after registering the observer, and
 `next` stores the value before broadcasting so later subscribers receive it. After completion, `subscribe` returns
 a no-op unsubscribed and `next` is ignored.
-
-Like [Subject](../core/subject) and [Observable](../core/observable), the unsubscribe function `subscribe` returns
-is idempotent and `Disposable`, so it can be bound with a `using` declaration - including the no-op returned after
-completion. See [Automatic cleanup with `using`](../core/observable#automatic-cleanup-with-using).

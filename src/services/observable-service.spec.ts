@@ -11,6 +11,7 @@ import { ObservableService } from '@services/observable.service';
 describe('Observable', () => {
     beforeAll(() => {
         xJet.useFakeTimers();   // crucial for timer tests
+        if (!Symbol.dispose) (Symbol as any).dispose = Symbol.for('Symbol.dispose');
     });
 
     afterAll(() => {
@@ -100,7 +101,8 @@ describe('Observable', () => {
         test('should not call next after unsubscribe', () => {
             const next = xJet.fn();
 
-            let emit: null | ((v: number) => void) = () => {};
+            let emit: null | ((v: number) => void) = () => {
+            };
             const obs = new ObservableService<number>((observer) => {
                 emit = (v) => observer.next?.(v);
 
@@ -130,7 +132,8 @@ describe('Observable', () => {
                 return cleanup;
             });
 
-            const sub = obs.subscribe(() => {});
+            const sub = obs.subscribe(() => {
+            });
 
             xJet.advanceTimersByTime(150);
             sub();
@@ -158,6 +161,53 @@ describe('Observable', () => {
 
             expect(errorHandler).toHaveBeenCalledTimes(1);
             expect(errorHandler).toHaveBeenCalledWith(expect.any(Error));
+        });
+    });
+
+    describe('disposable subscription', () => {
+        test('unsubscribe exposes Symbol.dispose', () => {
+            const obs = new ObservableService<number>((o) => {
+                o.next?.(1);
+            });
+
+            const sub = obs.subscribe(() => {
+            });
+
+            expect(typeof sub[Symbol.dispose]).toBe('function');
+        });
+
+        test('runs cleanup when disposed via `using`', () => {
+            const cleanup = xJet.fn();
+            const obs = new ObservableService<number>((observer) => {
+                observer.next?.(1);
+
+                return cleanup;
+            });
+
+            {
+                using sub = obs.subscribe(() => {
+                });
+                void sub;
+
+                expect(cleanup).not.toHaveBeenCalled();
+            }
+
+            expect(cleanup).toHaveBeenCalledTimes(1);
+        });
+
+        test('cleanup runs at most once across repeated unsubscribe calls', () => {
+            const cleanup = xJet.fn();
+
+            const obs = new ObservableService<number>(() => cleanup);
+
+            const sub = obs.subscribe(() => {
+            });
+
+            sub();
+            sub();
+            sub[Symbol.dispose]();
+
+            expect(cleanup).toHaveBeenCalledTimes(1);
         });
     });
 

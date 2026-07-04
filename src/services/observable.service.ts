@@ -3,7 +3,7 @@
  */
 
 import type { ObserverInterface, OperatorFunctionType } from '@interfaces/observable.interface';
-import type { NextType, UnsubscribeType, ErrorType, CompleteType } from '@interfaces/observable.interface';
+import type { NextType, TeardownType, UnsubscribeType, ErrorType, CompleteType } from '@interfaces/observable.interface';
 
 /**
  * A push-based stream of values that can be observed over time.
@@ -62,7 +62,7 @@ export class ObservableService<T = unknown> {
      */
 
     constructor(
-        private readonly handler: (observer: ObserverInterface<T>) => UnsubscribeType | void
+        private readonly handler: (observer: ObserverInterface<T>) => TeardownType | void
     ) {}
 
     /**
@@ -71,10 +71,13 @@ export class ObservableService<T = unknown> {
      * @param observerOrNext - A full observer object, or a `next` callback.
      * @param error - Error handler, used when the first argument is a `next` callback.
      * @param complete - Completion handler, used when the first argument is a `next` callback.
-     * @returns Unsubscribe function that stops delivery and runs the handler's cleanup.
+     * @returns Idempotent unsubscribe function that stops delivery and runs the handler's cleanup; it also implements
+     * {@link Disposable}, so it can be bound with a `using` declaration.
      *
      * @remarks
-     * If the handler throws synchronously, the error is routed to the observer and no-op unsubscribed is returned.
+     * If the handler throws synchronously, the error is routed to the observer and a no-op unsubscribing is returned.
+     * The returned function is safe to call more than once - the teardown runs at most once - and disposes cleanly
+     * when released through `Symbol.dispose`.
      *
      * @example
      * ```ts
@@ -83,6 +86,11 @@ export class ObservableService<T = unknown> {
      *
      * // Positional callbacks
      * source.subscribe(v => console.log(v), e => console.error(e), () => console.log('done'));
+     *
+     * // Scoped subscription - unsubscribed automatically when the block exits
+     * {
+     *   using sub = source.subscribe(v => console.log(v));
+     * }
      * ```
      *
      * @since 1.0.0
@@ -94,23 +102,23 @@ export class ObservableService<T = unknown> {
         complete?: CompleteType
     ): UnsubscribeType {
         const observer = this.createSafeObserver(observerOrNext, error, complete);
-        let cleanup: UnsubscribeType | void;
+        let cleanup: TeardownType | void;
 
         try {
             cleanup = this.handler(observer);
         } catch (err) {
             observer.error?.(err);
 
-            return () => {};
+            return this.toUnsubscribe(() => {});
         }
 
-        return () => {
+        return this.toUnsubscribe(() => {
             try {
                 cleanup?.();
             } catch (err) {
                 observer.error?.(err);
             }
-        };
+        });
     }
 
     /**
@@ -252,5 +260,33 @@ export class ObservableService<T = unknown> {
         return typeof observerOrNext === 'function'
             ? { next: observerOrNext, error, complete }
             : observerOrNext || {};
+    }
+
+    /**
+     * Wraps a teardown into an idempotent, disposable unsubscribe function.
+     *
+     * @param teardown - Cleanup to run at most once when the subscription is torn down.
+     * @returns An unsubscribe function that runs `teardown` once and implements {@link Disposable} via `Symbol.dispose`.
+     *
+     * @remarks
+     * Internal helper. The returned function guards against repeated invocation, so the teardown runs only once and
+     * exposes `Symbol.dispose` so the subscription can be bound with a `using` declaration and released automatically
+     * when its enclosing scope exits.
+     *
+     * @since 1.1.0
+     */
+
+    protected toUnsubscribe(teardown: TeardownType): UnsubscribeType {
+        let torn = false;
+        const unsubscribe = ((): void => {
+            if (torn) return;
+            torn = true;
+
+            teardown();
+        }) as UnsubscribeType;
+
+        unsubscribe[Symbol.dispose] = unsubscribe;
+
+        return unsubscribe;
     }
 }

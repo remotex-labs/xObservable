@@ -48,6 +48,18 @@ export type ErrorType = (err: unknown) => void;
 export type CompleteType = () => void;
 
 /**
+ * Teardown returned by an Observable's subscription handler to release its resources
+ *
+ * @remarks
+ * Returned by the handler passed to the {@link ObservableService} constructor and run once when the subscription's
+ * {@link UnsubscribeType} is invoked. It takes no arguments and its return value is ignored.
+ *
+ * @since 1.1.0
+ */
+
+export type TeardownType = () => void;
+
+/**
  * Function that unsubscribes from an Observable and triggers cleanup
  *
  * @remarks
@@ -56,12 +68,24 @@ export type CompleteType = () => void;
  * - Invokes any teardown/cleanup logic registered by the source
  * - Releases resources associated with the subscription
  *
- * It is safe to call multiple times (idempotent).
+ * It is safe to call multiple times (idempotent): the teardown runs at most once.
+ *
+ * The function also implements {@link Disposable} through `Symbol.dispose`, so it can be bound with a `using`
+ * declaration to unsubscribe automatically when the enclosing block exits - preventing subscriptions from being
+ * leaked when an explicit unsubscribed call is forgotten.
+ *
+ * @example
+ * ```ts
+ * {
+ *   using sub = source.subscribe((value) => console.log(value));
+ *   source.next(1);
+ * } // sub is disposed here - the subscription is torn down automatically
+ * ```
  *
  * @since 1.0.0
  */
 
-export type UnsubscribeType = () => void;
+export type UnsubscribeType = (() => void) & Disposable;
 
 /**
  * Generic unary function type - takes one input and produces one output
