@@ -222,10 +222,10 @@ on GitHub.
 
 ## Links
 
-- [Documentation](https://remotex-labs.github.io/xObservable/)
-- [GitHub Repository](https://github.com/remotex-labs/xObservable)
-- [Issue Tracker](https://github.com/remotex-labs/xObservable/issues)
-- [npm Package](https://www.npmjs.com/package/@remotex-labs/xobservable)
+[Documentation](https://remotex-labs.github.io/xObservable/),
+[GitHub Repository](https://github.com/remotex-labs/xObservable),
+[Issue Tracker](https://github.com/remotex-labs/xObservable/issues),
+[npm Package](https://www.npmjs.com/package/@remotex-labs/xobservable)
 
 ## License
 
