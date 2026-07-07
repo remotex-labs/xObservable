@@ -48,6 +48,7 @@ export default defineVersionedConfig({
         sidebar: {
             root: [
                 { text: 'Getting Started', link: '/guide' },
+                { text: 'Release Notes', link: '/release' },
                 {
                     text: 'Core',
                     collapsed: false,
