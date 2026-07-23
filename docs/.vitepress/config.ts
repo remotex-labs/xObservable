@@ -18,10 +18,7 @@ export default defineVersionedConfig({
     ],
     versionsConfig: {
         current: 'v1.1.x',
-        versionSwitcher: {
-            text: 'Version',
-            includeCurrentVersion: true
-        }
+        versionSwitcher: false
     },
     themeConfig: {
         logo: '/logo.png',
