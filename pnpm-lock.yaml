@@ -1076,8 +1076,8 @@ packages:
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
 
-  js-yaml@5.2.1:
-    resolution: {integrity: sha512-zfLtNfQqxVqq3uaTqSkh4x4hZw3KHobGUA0fJUj4wawW8bsQLTVqpHdXSIzidh7o+4lEW36tANuAGdaFx6Zgnw==}
+  js-yaml@5.2.3:
+    resolution: {integrity: sha512-n+mUVyUX5bVv7G/G2zyIHOhdxfuU1dY2NOFzTQUWiMUbFss8b57NFlgCCaggU78wSw5KVS9cllzeLyzyR+n5nw==}
     hasBin: true
 
   json-buffer@3.0.1:
@@ -2616,7 +2616,7 @@ snapshots:
 
   jju@1.4.0: {}
 
-  js-yaml@5.2.1:
+  js-yaml@5.2.3:
     dependencies:
       argparse: 2.0.1
 
@@ -2722,7 +2722,7 @@ snapshots:
       commander: 15.0.0
       deep-extend: 0.6.0
       ignore: 7.0.6
-      js-yaml: 5.2.1
+      js-yaml: 5.2.3
       jsonc-parser: 3.3.1
       jsonpointer: 5.0.1
       markdown-it: 14.3.0
